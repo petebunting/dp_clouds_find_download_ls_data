@@ -692,7 +692,7 @@ def check_dwnld_opts(
     return dwlds_lst
 
 
-def request_downloads(api_key: str, dwlds_lst: str, dwnld_label: str) -> (Dict, List):
+def request_downloads(api_key: str, dwlds_lst: List[Dict[str, str]], dwnld_label: str) -> (Dict, List):
     """
     A function to request download URLs for a download list (from check_dwnld_opts)
 

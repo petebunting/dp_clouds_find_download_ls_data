@@ -22,7 +22,7 @@ for scn_file in scn_files:
 
     for scn in scns:
         scn_rowpath = scn.split("_")[2]
-        print(scn_rowpath)
+        #print(scn_rowpath)
         scn_dir = os.path.join(out_dir, scn_rowpath)
         if not os.path.exists(scn_dir):
             os.mkdir(scn_dir)
