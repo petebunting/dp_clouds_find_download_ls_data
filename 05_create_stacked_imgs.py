@@ -1,10 +1,27 @@
-import glob
+#!/usr/bin/env python
+
+import argparse
+import atexit
+import shutil
+import tempfile
+
 import create_ls_toa
 
-out_dir = "/Users/pete/Temp/dp_cloud_masking/process_landsat/out"
-tmp_dir = "/Users/pete/Temp/dp_cloud_masking/process_landsat/tmp"
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Creates Landsat TOA Stack from input .tar file"
+    )
+    parser.add_argument("intars", nargs="+", type=str, help="Input tar file(s)")
+    parser.add_argument("-o", "--outdir", required=True, help="Output directory")
+    args = parser.parse_args()
 
-tar_files = glob.glob("/Users/pete/Temp/dp_cloud_masking/process_landsat/ls_downloads/*.tar")
-for tar_file in tar_files:
-    create_ls_toa.create_stacked_toa_ls_ols_cl2_lv1_img(tar_file, out_dir, tmp_dir)
+    tmp_dir = tempfile.mkdtemp(prefix="landsat_stack_tmp_")
+    atexit.register(shutil.rmtree, tmp_dir, ignore_errors=True)
 
+    for i, tar_file in enumerate(args.intars):
+        print(f"[{i:03}/{len(args.intars):03}] {tar_file}")
+        create_ls_toa.create_stacked_toa_ls_ols_cl2_lv1_img(
+            tar_file, args.outdir, tmp_dir
+        )
+
+    shutil.rmtree(tmp_dir)
