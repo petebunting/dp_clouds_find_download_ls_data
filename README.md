@@ -1,2 +1,3 @@
-# dp_clouds_find_download_ls_data
-Find and download Landsat data via m2m
+# Find and Download Landsat Data
+
+Scripts for a specific project working on cloud classification which find and download Landsat data via m2m.
