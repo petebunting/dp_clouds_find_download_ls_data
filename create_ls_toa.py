@@ -231,6 +231,37 @@ def create_stacked_toa_ls_ols_cl2_lv1_img(
         rsgislib.imageutils.pop_thmt_img_stats(
             vld_msk_img, add_clr_tab=True, calc_pyramids=True, ignore_zero=True
         )
+
+    snow_msk_img = os.path.join(out_dir, "{}_snow_msk.{}".format(ls_prod_id, out_img_ext))
+    band_defns = list()
+    band_defns.append(rsgislib.imagecalc.BandDefn("snow", qa_pxl_mband_img, 6))
+    rsgislib.imagecalc.band_math(
+        snow_msk_img, "snow==1?1:0", gdalformat, rsgislib.TYPE_8UINT, band_defns
+    )
+    if gdalformat == "KEA":
+        rsgislib.rastergis.pop_rat_img_stats(
+            snow_msk_img, add_clr_tab=True, calc_pyramids=True, ignore_zero=True
+        )
+    else:
+        rsgislib.imageutils.pop_thmt_img_stats(
+            snow_msk_img, add_clr_tab=True, calc_pyramids=True, ignore_zero=True
+        )
+
+    water_msk_img = os.path.join(out_dir,
+                                "{}_water_msk.{}".format(ls_prod_id, out_img_ext))
+    band_defns = list()
+    band_defns.append(rsgislib.imagecalc.BandDefn("water", qa_pxl_mband_img, 8))
+    rsgislib.imagecalc.band_math(
+        water_msk_img, "water==1?1:0", gdalformat, rsgislib.TYPE_8UINT, band_defns
+    )
+    if gdalformat == "KEA":
+        rsgislib.rastergis.pop_rat_img_stats(
+            water_msk_img, add_clr_tab=True, calc_pyramids=True, ignore_zero=True
+        )
+    else:
+        rsgislib.imageutils.pop_thmt_img_stats(
+            water_msk_img, add_clr_tab=True, calc_pyramids=True, ignore_zero=True
+        )
     
     out_img_ext = rsgislib.imageutils.get_file_img_extension(gdalformat)
     output_img = os.path.join(out_dir, "{}_toa.{}".format(ls_prod_id, out_img_ext))
